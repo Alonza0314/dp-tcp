@@ -1,6 +1,6 @@
 # dp-tcp
 
-This is a layer 5 application for Dual-Path TCP.
+**Dual Path TCP**: A application for dual path TCP
 
 Dual-Path at here means the packet will be ensure by double transmit.
 
