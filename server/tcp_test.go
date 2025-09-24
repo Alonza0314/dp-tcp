@@ -18,7 +18,7 @@ func TestTcpServer(t *testing.T) {
 		t.Fatalf("listen failed: %v", err)
 	}
 
-	go func(t *testing.T) {
+	go func() {
 		if err := server.accept(); err != nil {
 			t.Errorf("accept failed: %v", err)
 		}
@@ -39,7 +39,7 @@ func TestTcpServer(t *testing.T) {
 				t.Errorf("expected 'test TCP', got '%s'", string(buf[:n]))
 			}
 		}
-	}(t)
+	}()
 
 	time.Sleep(1 * time.Second)
 
