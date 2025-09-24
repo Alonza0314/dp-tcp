@@ -39,8 +39,8 @@ func NewDpTcpClient(config *model.ClientConfig, clientLogger *logger.ClientLogge
 		tcpClient1: newTcpClient(config.ClientIE.TCP1DialAddr, config.ClientIE.TCP1DialPort, config.ClientIE.TCP1ConnAddr, config.ClientIE.TCP1ConnPort),
 		tcpClient2: newTcpClient(config.ClientIE.TCP2DialAddr, config.ClientIE.TCP2DialPort, config.ClientIE.TCP2ConnAddr, config.ClientIE.TCP2ConnPort),
 
-		tunnelDeviceName: config.ClientIE.TunnelDeviceName,
-		tunnelDeviceIP:   config.ClientIE.TunnelDeviceIP,
+		tunnelDeviceName: config.ClientIE.TunnelDevice.Name,
+		tunnelDeviceIP:   config.ClientIE.TunnelDevice.IP,
 
 		readFromTun:  make(chan []byte),
 		readFromTcp1: make(chan []byte),

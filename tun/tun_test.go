@@ -9,11 +9,13 @@ var testUeTunnelDeviceName = []struct {
 	name             string
 	tunnelDeviceName string
 	ip               string
+	peerIP           string
 }{
 	{
 		name:             "test1",
 		tunnelDeviceName: "dptcptun",
 		ip:               "10.0.0.1",
+		peerIP:           "10.0.0.2",
 	},
 }
 

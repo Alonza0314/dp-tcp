@@ -40,8 +40,8 @@ func NewDpTcpServer(config *model.ServerConfig, serverLogger *logger.ServerLogge
 		tcpServer1: newTcpServer(config.ServerIE.TCP1ListenAddr, config.ServerIE.TCP1ListenPort),
 		tcpServer2: newTcpServer(config.ServerIE.TCP2ListenAddr, config.ServerIE.TCP2ListenPort),
 
-		tunnelDeviceName: config.ServerIE.TunnelDeviceName,
-		tunnelDeviceIP:   config.ServerIE.TunnelDeviceIP,
+		tunnelDeviceName: config.ServerIE.TunnelDevice.Name,
+		tunnelDeviceIP:   config.ServerIE.TunnelDevice.IP,
 
 		readFromTun:  make(chan []byte),
 		readFromTcp1: make(chan []byte),

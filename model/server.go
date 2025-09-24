@@ -11,7 +11,6 @@ type ServerIE struct {
 	TCP2ListenAddr string `yaml:"tcp2_listen_addr" valid:"required"`
 	TCP2ListenPort int    `yaml:"tcp2_listen_port" valid:"required"`
 
-	TunnelDeviceName string `yaml:"tunnel_device_name" valid:"required"`
-	TunnelDeviceIP   string `yaml:"tunnel_device_ip" valid:"required"`
+	TunnelDevice TunnelDevice `yaml:"tunnel_device" valid:"required"`
 }
 
