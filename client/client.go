@@ -135,6 +135,24 @@ func (c *DpTcpClient) Start(ctx context.Context) error {
 func (c *DpTcpClient) Stop() {
 	c.ClientLog.Infof("DpTcpClient stopping...")
 
+	close(c.readFromTun)
+	close(c.readFromTcp1)
+	close(c.readFromTcp2)
+
+	if err := c.cleanUpTunnelDevice(); err != nil {
+		c.TunLog.Errorf("Tunnel device cleanup failed: %v", err)
+	}
+
+	if err := c.tcpClient2.close(); err != nil {
+		c.Tcp2Log.Errorf("TCP 2 client close failed: %v", err)
+	}
+	c.Tcp2Log.Infof("TCP 2 client stopped")
+
+	if err := c.tcpClient1.close(); err != nil {
+		c.Tcp1Log.Errorf("TCP 1 client close failed: %v", err)
+	}
+	c.Tcp1Log.Infof("TCP 1 client stopped")
+
 	c.ClientLog.Infof("DpTcpClient stopped")
 }
 

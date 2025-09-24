@@ -11,14 +11,22 @@ func TestTcpClient(t *testing.T) {
 	if err != nil {
 		t.Fatalf("listen failed: %v", err)
 	}
-	defer server.Close()
+	defer func() {
+		if err := server.Close(); err != nil {
+			t.Errorf("close failed: %v", err)
+		}
+	}()
 
 	go func() {
 		conn, err := server.Accept()
 		if err != nil {
 			t.Errorf("accept failed: %v", err)
 		}
-		defer conn.Close()
+		defer func() {
+			if err := conn.Close(); err != nil {
+				t.Errorf("close failed: %v", err)
+			}
+		}()
 
 		buf := make([]byte, 1024)
 		if n, err := conn.Read(buf); err != nil {
