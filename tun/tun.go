@@ -1,4 +1,4 @@
-package server
+package tun
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"github.com/songgao/water"
 )
 
-func bringUpUeTunnelDevice(ueTunnelDeviceName string, ip string) (*water.Interface, error) {
+func BringUpUeTunnelDevice(ueTunnelDeviceName string, ip string) (*water.Interface, error) {
 	tunCfg := water.Config{
 		DeviceType: water.TUN,
 	}
@@ -32,7 +32,7 @@ func bringUpUeTunnelDevice(ueTunnelDeviceName string, ip string) (*water.Interfa
 	return tun, nil
 }
 
-func bringDownUeTunnelDevice(ueTunnelDeviceName string) error {
+func BringDownUeTunnelDevice(ueTunnelDeviceName string) error {
 	cmds := [][]string{
 		{"ip", "link", "set", "dev", ueTunnelDeviceName, "down"},
 		{"ip", "addr", "flush", "dev", ueTunnelDeviceName},

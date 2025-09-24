@@ -1,4 +1,4 @@
-package server
+package tun
 
 import (
 	"os"
@@ -23,12 +23,12 @@ func TestUeTunnelDeviceName(t *testing.T) {
 	}
 	for _, test := range testUeTunnelDeviceName {
 		t.Run(test.name, func(t *testing.T) {
-			_, err := bringUpUeTunnelDevice(test.tunnelDeviceName, test.ip)
+			_, err := BringUpUeTunnelDevice(test.tunnelDeviceName, test.ip)
 			if err != nil {
 				t.Fatalf("Error bringing up tunnel device: %v", err)
 			}
 			defer func() {
-				if err := bringDownUeTunnelDevice(test.tunnelDeviceName); err != nil {
+				if err := BringDownUeTunnelDevice(test.tunnelDeviceName); err != nil {
 					t.Fatalf("Error bringing down tunnel device: %v", err)
 				}
 			}()

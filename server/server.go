@@ -9,6 +9,7 @@ import (
 	"github.com/Alonza0314/dp-tcp/constant"
 	"github.com/Alonza0314/dp-tcp/logger"
 	"github.com/Alonza0314/dp-tcp/model"
+	"github.com/Alonza0314/dp-tcp/tun"
 	"github.com/cespare/xxhash/v2"
 	"github.com/cornelk/hashmap"
 	"github.com/songgao/water"
@@ -159,7 +160,7 @@ func (s *DpTcpServer) Stop() {
 func (s *DpTcpServer) setupTunnelDevice() error {
 	s.TunLog.Infof("Setting up tunnel device %s with IP %s", s.tunnelDeviceName, s.tunnelDeviceIP)
 
-	tun, err := bringUpUeTunnelDevice(s.tunnelDeviceName, s.tunnelDeviceIP)
+	tun, err := tun.BringUpUeTunnelDevice(s.tunnelDeviceName, s.tunnelDeviceIP)
 	if err != nil {
 		return err
 	}
@@ -202,7 +203,7 @@ func (s *DpTcpServer) setupTunnelDevice() error {
 func (s *DpTcpServer) cleanUpTunnelDevice() error {
 	s.TunLog.Infof("Cleaning up tunnel device %s", s.tunnelDeviceName)
 
-	if err := bringDownUeTunnelDevice(s.tunnelDeviceName); err != nil {
+	if err := tun.BringDownUeTunnelDevice(s.tunnelDeviceName); err != nil {
 		return err
 	}
 
