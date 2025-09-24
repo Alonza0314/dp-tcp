@@ -84,6 +84,9 @@ func (s *DpTcpServer) Start(ctx context.Context) error {
 		for {
 			buffer := make([]byte, constant.BUFFER_SIZE)
 			if n, err := s.tcpServer1.read(buffer); err != nil {
+				if errors.Is(err, net.ErrClosed) || errors.Is(err, io.EOF) {
+					return
+				}
 				s.Tcp1Log.Errorf("TCP 1 server read failed: %v", err)
 				return
 			} else {
@@ -105,6 +108,9 @@ func (s *DpTcpServer) Start(ctx context.Context) error {
 		for {
 			buffer := make([]byte, constant.BUFFER_SIZE)
 			if n, err := s.tcpServer2.read(buffer); err != nil {
+				if errors.Is(err, net.ErrClosed) || errors.Is(err, io.EOF) {
+					return
+				}
 				s.Tcp2Log.Errorf("TCP 2 server read failed: %v", err)
 				return
 			} else {
