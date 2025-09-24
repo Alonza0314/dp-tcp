@@ -1,0 +1,15 @@
+client:
+  tcp1_dial_addr: 127.0.0.101
+  tcp1_dial_port: 31411
+  tcp1_conn_addr: 127.0.0.102
+  tcp1_conn_port: 31412
+  tcp2_dial_addr: 127.0.0.103
+  tcp2_dial_port: 31413
+  tcp2_conn_addr: 127.0.0.104
+  tcp2_conn_port: 31414
+
+  tunnel_device_name: dpTcpTunClient
+  tunnel_device_ip: 10.0.0.2
+
+logger:
+  level: info
