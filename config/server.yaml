@@ -1,0 +1,11 @@
+server:
+  tcp1_listen_addr: 127.0.0.100
+  tcp1_listen_port: 31413
+  tcp2_listen_addr: 127.0.0.101
+  tcp2_listen_port: 31414
+
+  tunnel_device_name: dpTcpTunServer
+  tunnel_device_ip: 10.0.0.1
+
+logger:
+  level: info
