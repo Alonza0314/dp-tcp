@@ -65,7 +65,9 @@ func (s *DpTcpServer) Start(ctx context.Context) error {
 
 	if err := s.tcpServer2.listen(); err != nil {
 		s.Tcp2Log.Errorf("TCP 2 server listen failed: %v", err)
-		s.tcpServer1.close()
+		if err := s.tcpServer1.close(); err != nil {
+			s.Tcp1Log.Errorf("TCP 1 server close failed: %v", err)
+		}
 		return err
 	}
 	s.Tcp2Log.Infof("TCP 2 server started at %s:%d", s.tcpServer2.listenAddr, s.tcpServer2.listenPort)
@@ -114,8 +116,12 @@ func (s *DpTcpServer) Start(ctx context.Context) error {
 
 	if err := s.setupTunnelDevice(); err != nil {
 		s.ServerLog.Errorf("Tunnel device setup failed: %v", err)
-		s.tcpServer1.close()
-		s.tcpServer2.close()
+		if err := s.tcpServer1.close(); err != nil {
+			s.Tcp1Log.Errorf("TCP 1 server close failed: %v", err)
+		}
+		if err := s.tcpServer2.close(); err != nil {
+			s.Tcp2Log.Errorf("TCP 2 server close failed: %v", err)
+		}
 		return err
 	}
 
@@ -126,7 +132,7 @@ func (s *DpTcpServer) Start(ctx context.Context) error {
 	return nil
 }
 
-func (s *DpTcpServer) Stop() error {
+func (s *DpTcpServer) Stop() {
 	s.ServerLog.Infof("DpTcpServer stopping...")
 
 	close(s.readFromTun)
@@ -148,7 +154,6 @@ func (s *DpTcpServer) Stop() error {
 	s.Tcp1Log.Infof("TCP 1 server stopped")
 
 	s.ServerLog.Infof("DpTcpServer stopped")
-	return nil
 }
 
 func (s *DpTcpServer) setupTunnelDevice() error {
@@ -182,12 +187,10 @@ func (s *DpTcpServer) setupTunnelDevice() error {
 	// go routine to write to tunnel device
 	go func() {
 		for {
-			select {
-			case data := <-s.writeToTun:
-				if _, err := s.tunnelDevice.Write(data); err != nil {
-					s.TunLog.Errorf("Error writing to tunnel device: %v", err)
-					return
-				}
+			data := <-s.writeToTun
+			if _, err := s.tunnelDevice.Write(data); err != nil {
+				s.TunLog.Errorf("Error writing to tunnel device: %v", err)
+				return
 			}
 		}
 	}()

@@ -7,10 +7,12 @@ import (
 )
 
 func TestTcpServer(t *testing.T) {
-	passFlag := true
-
 	server := newTcpServer("127.0.0.1", 31413)
-	defer server.close()
+	defer func() {
+		if err := server.close(); err != nil {
+			t.Errorf("close failed: %v", err)
+		}
+	}()
 
 	if err := server.listen(); err != nil {
 		t.Fatalf("listen failed: %v", err)
@@ -19,7 +21,6 @@ func TestTcpServer(t *testing.T) {
 	go func(t *testing.T) {
 		if err := server.accept(); err != nil {
 			t.Errorf("accept failed: %v", err)
-			passFlag = false
 		}
 
 		buf := make([]byte, 1024)
@@ -28,7 +29,6 @@ func TestTcpServer(t *testing.T) {
 		} else {
 			if string(buf[:n]) != "test TCP" {
 				t.Errorf("expected 'test TCP', got '%s'", string(buf[:n]))
-				passFlag = false
 			}
 		}
 
@@ -37,7 +37,6 @@ func TestTcpServer(t *testing.T) {
 		} else {
 			if n != len([]byte("test TCP")) {
 				t.Errorf("expected 'test TCP', got '%s'", string(buf[:n]))
-				passFlag = false
 			}
 		}
 	}(t)
@@ -48,7 +47,11 @@ func TestTcpServer(t *testing.T) {
 	if err != nil {
 		t.Fatalf("dial failed: %v", err)
 	}
-	defer conn.Close()
+	defer func() {
+		if err := conn.Close(); err != nil {
+			t.Errorf("close failed: %v", err)
+		}
+	}()
 
 	if _, err := conn.Write([]byte("test TCP")); err != nil {
 		t.Fatalf("write failed: %v", err)
@@ -63,9 +66,5 @@ func TestTcpServer(t *testing.T) {
 		if string(buf[:n]) != "test TCP" {
 			t.Fatalf("expected 'test TCP', got '%s'", string(buf[:n]))
 		}
-	}
-
-	if !passFlag {
-		t.Fatalf("test failed")
 	}
 }
