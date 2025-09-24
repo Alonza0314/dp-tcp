@@ -69,10 +69,6 @@ setup_network_namespace() {
 
 cleanup_network_namespace() {
     echo "Removing network namespace..."
-    sudo ip link delete link1-s
-    sudo ip link delete link1-c
-    sudo ip link delete link2-s
-    sudo ip link delete link2-c
     sudo ip netns delete $SERVER_NAMESPACE
     sudo ip netns delete $CLIENT_NAMESPACE
     echo
