@@ -262,9 +262,10 @@ func (c *DpTcpClient) packetEliminate(ctx context.Context) {
 }
 
 func (c *DpTcpClient) packetEliminateMain(packet []byte) {
+	c.writeToTun <- packet
 	h := xxhash.Sum64(packet)
 	if _, ok := c.packetMap.Get(h); ok {
-		c.writeToTun <- packet
+		c.packetMap.Del(h)
 		c.TunLog.Debugf("Eliminated packet %d", h)
 		c.TunLog.Tracef("Eliminated packet %d, %x", h, packet)
 		return

@@ -71,6 +71,7 @@ cleanup_network_namespace() {
     echo "Removing network namespace..."
     sudo ip netns delete $SERVER_NAMESPACE
     sudo ip netns delete $CLIENT_NAMESPACE
+    echo "Network namespace removed"
     echo
 }
 

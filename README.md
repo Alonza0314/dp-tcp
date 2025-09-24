@@ -66,6 +66,18 @@ make
 
 3. ncat test
 
+    - Server
+
+        ```bash
+        ncat -u -l 10.0.0.1 9999
+        ```
+
+    - Client
+
+        ```bash
+        ncat -u --source 10.0.0.2 10.0.0.1 9999
+        ```
+
     - Demo
 
         ![ncat](./images/ncat.png)
