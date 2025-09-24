@@ -21,6 +21,7 @@ func BringUpUeTunnelDevice(ueTunnelDeviceName string, ip string) (*water.Interfa
 	cmds := [][]string{
 		{"ip", "addr", "add", fmt.Sprintf("%s/32", ip), "dev", ueTunnelDeviceName},
 		{"ip", "link", "set", "dev", ueTunnelDeviceName, "up"},
+		{"ip", "route", "add", "default", "via", ip},
 	}
 
 	for _, cmd := range cmds {
@@ -34,6 +35,7 @@ func BringUpUeTunnelDevice(ueTunnelDeviceName string, ip string) (*water.Interfa
 
 func BringDownUeTunnelDevice(ueTunnelDeviceName string) error {
 	cmds := [][]string{
+		{"ip", "route", "del", "default"},
 		{"ip", "addr", "flush", "dev", ueTunnelDeviceName},
 		{"ip", "link", "set", "dev", ueTunnelDeviceName, "down"},
 	}

@@ -1,7 +1,7 @@
 server:
-  tcp1_listen_addr: 127.0.0.101
+  tcp1_listen_addr: 10.0.1.1
   tcp1_listen_port: 31411
-  tcp2_listen_addr: 127.0.0.103
+  tcp2_listen_addr: 10.0.2.1
   tcp2_listen_port: 31413
 
   tunnel_device:
