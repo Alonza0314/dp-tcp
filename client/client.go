@@ -3,6 +3,8 @@ package client
 import (
 	"context"
 	"errors"
+	"io"
+	"net"
 	"sync"
 
 	"github.com/Alonza0314/dp-tcp/constant"
@@ -89,6 +91,9 @@ func (c *DpTcpClient) Start(ctx context.Context) error {
 		for {
 			buffer := make([]byte, constant.BUFFER_SIZE)
 			if n, err := c.tcpClient1.read(buffer); err != nil {
+				if errors.Is(err, net.ErrClosed) || errors.Is(err, io.EOF) {
+					return
+				}
 				c.ClientLog.Errorf("TCP 1 client read failed: %v", err)
 				return
 			} else {
@@ -103,6 +108,9 @@ func (c *DpTcpClient) Start(ctx context.Context) error {
 		for {
 			buffer := make([]byte, constant.BUFFER_SIZE)
 			if n, err := c.tcpClient2.read(buffer); err != nil {
+				if errors.Is(err, net.ErrClosed) || errors.Is(err, io.EOF) {
+					return
+				}
 				c.ClientLog.Errorf("TCP 2 client read failed: %v", err)
 				return
 			} else {
