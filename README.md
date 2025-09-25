@@ -1,6 +1,6 @@
 # dp-tcp
 
-**Dual Path TCP**: A application for dual path TCP
+**Dual Path TCP**: An application for dual path TCP
 
 Dual-Path at here means the packet will be ensure by double transmit.
 
