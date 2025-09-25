@@ -10,7 +10,7 @@ Dual-Path at here means the packet will be ensure by double transmit.
 
 As the dp-tcp started, it will create a network interface for proxy real data packet. At the above image, packet from blue network interface to green network interface is doing packet duplication, and the packet from green network interface to blue network interface is doing packet elimination.
 
-For duplication, it just duplicate the packet read from blue network interface and write to both TCP links.
+For duplication, it just duplicates the packet read from blue network interface and write to both TCP links.
 
 For elimination, dp-tcp used a [hashmap](github.com/cornelk/hashmap) to store packet record. This map is efficient and safe for doing concurent map read/write. The record stored in the map is not the original raw packet since it may be very large. dp-tcp used [xxhash](github.com/cornelk/hashmap), a quick hash function, for hashing the packet into an `uint64` value, which makes it easy stored.
 
