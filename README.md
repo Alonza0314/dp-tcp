@@ -8,7 +8,7 @@ Dual-Path at here means the packet will be ensure by double transmit.
 
 ![descp](./images/desp.png)
 
-As the dp-tcp started, it will create a network interface for proxy real data packe. At the above image, packet from blue network interface to green network interface is doing packet duplication, and the packet from green network interface to blue network interface is doing packet elimination.
+As the dp-tcp started, it will create a network interface for proxy real data packet. At the above image, packet from blue network interface to green network interface is doing packet duplication, and the packet from green network interface to blue network interface is doing packet elimination.
 
 For duplication, it just duplicate the packet read from blue network interface and write to both TCP links.
 
@@ -35,6 +35,8 @@ make
     ```bash
     sudo ./build/dp-tcp client -c config/client.yaml
     ```
+
+After starting, user can used the created network interface to do your own application. But dp-tcp will not set the IP route rule. This can be customizd by your own.
 
 ## Quickstart
 
