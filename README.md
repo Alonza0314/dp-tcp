@@ -4,6 +4,18 @@
 
 Dual-Path at here means the packet will be ensure by double transmit.
 
+## Description
+
+![descp](./images/desp.png)
+
+As the dp-tcp started, it will create a network interface for proxy real data packe. At the above image, packet from blue network interface to green network interface is doing packet duplication, and the packet from green network interface to blue network interface is doing packet elimination.
+
+For duplication, it just duplicate the packet read from blue network interface and write to both TCP links.
+
+For elimination, dp-tcp used a [hashmap](github.com/cornelk/hashmap) to store packet record. This map is efficient and safe for doing concurent map read/write. The record stored in the map is not the original raw packet since it may be very large. dp-tcp used [xxhash](github.com/cornelk/hashmap), a quick hash function, for hashing the packet into an `uint64` value, which makes it easy stored.
+
+With using [hashmap](github.com/cornelk/hashmap) and [xxhash](github.com/cornelk/hashmap), this dp-tcp is achieve a very efficient way to manage packets and connection reliable.
+
 ## Usage
 
 ```bash
@@ -82,7 +94,7 @@ make
 
         ![ncat](./images/ncat.png)
 
-## Feature
+## Appendix
 
 - "github.com/songgao/water": used to bring up network device.
 - "github.com/cornelk/hashmap": safe concurrent map.
