@@ -261,7 +261,6 @@ func (s *DpTcpServer) packetEliminate(ctx context.Context) {
 }
 
 func (s *DpTcpServer) packetEliminateMain(packet []byte) {
-	s.writeToTun <- packet
 	h := xxhash.Sum64(packet)
 	if _, ok := s.packetMap.Get(h); ok {
 		s.packetMap.Del(h)
@@ -269,6 +268,7 @@ func (s *DpTcpServer) packetEliminateMain(packet []byte) {
 		s.TunLog.Tracef("Eliminated packet %d, %x", h, packet)
 		return
 	}
+	s.writeToTun <- packet
 	s.packetMap.Set(h, struct{}{})
 	s.TunLog.Debugf("Packet %d stored", h)
 	s.TunLog.Tracef("Packet %d stored, %x", h, packet)
